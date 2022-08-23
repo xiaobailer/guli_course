@@ -21,7 +21,7 @@ import java.util.UUID;
 public class FileServiceImpl implements FileService {
     //上传文件 参考阿里云
     @Override
-    public String uploadFileOss(MultipartFile multipartFile) {
+    public String uploadFileOss(MultipartFile file) {
         // Endpoint以华东1（杭州）为例，其它Region请按实际情况填写。
         // String endpoint = "oss-cn-shenzhen.aliyuncs.com";  配置到配置信息中，封装成utils再进行调用
         String endpoint = ConstantPropertiesUtil.END_POINT;
@@ -33,7 +33,7 @@ public class FileServiceImpl implements FileService {
         // 填写Bucket名称，例如examplebucket。
 //        String bucketName = "guli-file22822";
         String bucketName = ConstantPropertiesUtil.BUCKET_NAME;
-        String fileName = multipartFile.getOriginalFilename();
+        String fileName = file.getOriginalFilename();
 
         // 创建OSSClient实例。
         OSS ossClient = new OSSClientBuilder().build(endpoint, accessKeyId, accessKeySecret);
@@ -41,7 +41,7 @@ public class FileServiceImpl implements FileService {
 
         try {
             //上传文件流
-            InputStream inputStream = multipartFile.getInputStream();
+            InputStream inputStream = file.getInputStream();
             //优化文件名,文件名不重复
             fileName =  UUID.randomUUID().toString() + fileName;
 

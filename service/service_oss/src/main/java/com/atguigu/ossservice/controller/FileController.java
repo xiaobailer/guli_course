@@ -23,11 +23,12 @@ public class FileController {
 
     @ApiOperation(value = "上传文件")
     @PostMapping("uploadFile")
-    public R uploadFile(MultipartFile multipartFile) {
+    public R uploadFile(MultipartFile file) {
         //1.获取文件
 
         //2.调用接口上传文件
-        String url = fileService.uploadFileOss(multipartFile);
+        System.out.println(file);
+        String url = fileService.uploadFileOss(file);
 
         //3.获取上传后的链接，然后存储到数据库
         return R.ok().data("url",url);
