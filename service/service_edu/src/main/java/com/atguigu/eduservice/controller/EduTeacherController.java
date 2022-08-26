@@ -42,11 +42,6 @@ public class EduTeacherController {
     @GetMapping
     public R getAllTeacher() {
         List<EduTeacher> list = eduTeacherService.list(null);
-        try {
-            int i = 10 / 0;
-        } catch (Exception e) {
-            throw new GuliException(20001, "自定义异常");
-        }
         return R.ok().data("list", list);
     }
 

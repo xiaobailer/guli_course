@@ -58,7 +58,7 @@ public class EduTeacher implements Serializable {
     @ApiModelProperty(value = "创建时间")
     private Date gmtCreate;
 
-    @TableField(fill = FieldFill.UPDATE)
+    @TableField(fill = FieldFill.INSERT_UPDATE)
     @ApiModelProperty(value = "更新时间")
     private Date gmtModified;
 
