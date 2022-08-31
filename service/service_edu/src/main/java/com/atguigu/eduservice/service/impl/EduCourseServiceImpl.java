@@ -4,6 +4,7 @@ import com.atguigu.baserservice.handler.GuliException;
 import com.atguigu.eduservice.entity.EduCourse;
 import com.atguigu.eduservice.entity.EduCourseDescription;
 import com.atguigu.eduservice.entity.vo.CourseInfoForm;
+import com.atguigu.eduservice.entity.vo.CoursePublishVo;
 import com.atguigu.eduservice.mapper.EduCourseMapper;
 import com.atguigu.eduservice.service.EduCourseDescriptionService;
 import com.atguigu.eduservice.service.EduCourseService;
@@ -79,5 +80,11 @@ public class EduCourseServiceImpl extends ServiceImpl<EduCourseMapper, EduCourse
         eduCourseDescription.setId(courseInfoForm.getId());
         eduCourseDescription.setDescription(courseInfoForm.getDescription());
         eduCourseDescriptionService.updateById(eduCourseDescription);
+    }
+
+    @Override
+    public CoursePublishVo getCursePublicById(String id) {
+        CoursePublishVo coursePublishVo = baseMapper.getCursePublicById(id);
+        return coursePublishVo;
     }
 }
