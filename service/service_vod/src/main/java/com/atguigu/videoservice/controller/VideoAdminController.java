@@ -3,16 +3,16 @@ package com.atguigu.videoservice.controller;
 import com.aliyun.vod.upload.impl.UploadVideoImpl;
 import com.aliyun.vod.upload.req.UploadStreamRequest;
 import com.aliyun.vod.upload.resp.UploadStreamResponse;
+import com.aliyuncs.DefaultAcsClient;
 import com.aliyuncs.exceptions.ClientException;
+import com.aliyuncs.vod.model.v20170321.DeleteVideoRequest;
+import com.aliyuncs.vod.model.v20170321.DeleteVideoResponse;
 import com.atguigu.baserservice.handler.GuliException;
 import com.atguigu.commonutils.R;
 import com.atguigu.videoservice.utils.AliyunVodSDKUtils;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
@@ -49,6 +49,27 @@ public class VideoAdminController {
         } catch (IOException | ClientException e) {
             e.printStackTrace();
             throw  new GuliException(20001,"上传视频失败");
+        }
+    }
+
+    @ApiOperation(value = "删除视频")
+    @DeleteMapping("delVideo/{videoId}")
+    public R delVideo(@PathVariable("videoId") String videoId) {
+        try {
+            //初始化客户端对象
+            DefaultAcsClient client = AliyunVodSDKUtils.initVodClient("LTAI5tEeM6EFMnRZnigakmp9", "Mh8HwPhuoEoLFP8WBFtLPKHkLT3wAs");
+            //创建请求对象
+            DeleteVideoRequest request = new DeleteVideoRequest();
+            //创建响应对象
+          //  DeleteVideoResponse response = new DeleteVideoResponse();
+            //向请求设置参数
+            request.setVideoIds(videoId);
+            //调用客户端对象方法发送请求，拿到响应
+            client.getAcsResponse(request);
+            return R.ok();
+        } catch (ClientException e) {
+            e.printStackTrace();
+            throw new GuliException(20001, "删除视频失败");
         }
     }
 }
