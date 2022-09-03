@@ -5,7 +5,9 @@ import com.atguigu.commonutils.R;
 import com.atguigu.eduservice.entity.EduCourse;
 import com.atguigu.eduservice.entity.vo.CourseInfoForm;
 import com.atguigu.eduservice.entity.vo.CoursePublishVo;
+import com.atguigu.eduservice.entity.vo.CourseQuery;
 import com.atguigu.eduservice.service.EduCourseService;
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -40,7 +42,7 @@ public class EduCourseController {
     @GetMapping("getCourseInfoById/{id}")
     public R getCourseInfoById(@PathVariable("id") String id) {
         CourseInfoForm courseInfoForm = eduCourseService.getCourseInfoById(id);
-        return R.ok().data("courseInfo", courseInfoForm);
+        return R.ok().data("courseInfo",courseInfoForm);
     }
 
     @ApiOperation(value = "添加课程学习")
@@ -74,6 +76,21 @@ public class EduCourseController {
         return R.ok().data("list",list);
     }
     //TODO 实现带条件，带分页查询 ，跟查询讲师列表差不多
+
+    @ApiOperation(value = "待条件分页查询课程列表")
+    @PostMapping("getCourseByPage/{current}/{limit}")
+    public R getCourseByPage(@PathVariable Long current, @PathVariable Long limit, @RequestBody CourseQuery courseQuery) {
+        //@RequesyBody 把json串转换成实体类
+        //1.取出查询条件
+        String title = courseQuery.getTitle();
+        String teacherId = courseQuery.getTeacherId();
+        String subjectParentId = courseQuery.getSubjectParentId();
+        String subjectId = courseQuery.getSubjectId();
+        //2.判断条件是否为空，如果不空拼写sql
+        QueryWrapper<EduCourse> queryWrapper = new QueryWrapper<>();
+        return null;
+    }
+
 
 }
 
