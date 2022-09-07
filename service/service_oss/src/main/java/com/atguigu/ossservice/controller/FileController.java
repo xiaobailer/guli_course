@@ -15,7 +15,7 @@ import org.springframework.web.multipart.MultipartFile;
 @RestController
 @Api(description = "文件管理")
 @RequestMapping("/ossservice/fileoss")
-@CrossOrigin //跨域操作
+//@CrossOrigin //跨域操作
 public class FileController {
 
     @Autowired

@@ -12,4 +12,15 @@
     inner join edu_subject es2 on ec.subject_id = es2.id
     where ec.id = #{id}
     </select>
+
+    <select id="getCourseVo" resultType="com.atguigu.eduservice.entity.vo.CourseWebVo">
+    SELECT ec.id,ec.title,ec.price,ec.cover,
+    ec.lesson_num AS lessonNum,ec.buy_count AS buyCount,
+    ec.view_count AS viewCount,ecd.description,
+    et.id AS teacherId,et.name AS teacherName,et.intro,et.avatar
+    FROM edu_course ec
+    INNER JOIN edu_course_description ecd ON ec.id=ecd.id
+    INNER JOIN edu_teacher et ON ec.teacher_id=et.id
+    WHERE ec.status ='Normal' AND ec.id= #{id}
+    </select>
 </mapper>

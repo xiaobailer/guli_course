@@ -32,7 +32,7 @@ import java.util.Map;
 @Api(description = "教师管理")
 @RestController
 @RequestMapping("/eduservice/edu-teacher")
-@CrossOrigin(allowCredentials = "true") //解决跨域问题
+//@CrossOrigin(allowCredentials = "true") //解决跨域问题
 public class EduTeacherController {
 
     @Autowired

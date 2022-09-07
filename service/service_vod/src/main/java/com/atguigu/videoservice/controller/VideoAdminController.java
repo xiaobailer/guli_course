@@ -7,11 +7,14 @@ import com.aliyuncs.DefaultAcsClient;
 import com.aliyuncs.exceptions.ClientException;
 import com.aliyuncs.vod.model.v20170321.DeleteVideoRequest;
 import com.aliyuncs.vod.model.v20170321.DeleteVideoResponse;
+import com.aliyuncs.vod.model.v20170321.GetVideoPlayAuthRequest;
+import com.aliyuncs.vod.model.v20170321.GetVideoPlayAuthResponse;
 import com.atguigu.baserservice.handler.GuliException;
 import com.atguigu.commonutils.R;
 import com.atguigu.videoservice.utils.AliyunVodSDKUtils;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -21,7 +24,7 @@ import java.io.InputStream;
 @Api(description="视频管理")
 @RestController
 @RequestMapping("/eduvod/video")
-@CrossOrigin
+//@CrossOrigin
 public class VideoAdminController {
 
     @ApiOperation(value = "上传视频")
@@ -71,5 +74,25 @@ public class VideoAdminController {
             e.printStackTrace();
             throw new GuliException(20001, "删除视频失败");
         }
+    }
+
+
+    @ApiOperation(value = "获取视频播放凭证接口")
+    @GetMapping("getVideoUrl/{vid}")
+    public R getVideoUrl(@PathVariable String vid)throws ClientException{
+        //*初始化客户端对象
+        DefaultAcsClient client = AliyunVodSDKUtils.initVodClient("LTAI5tEeM6EFMnRZnigakmp9", "Mh8HwPhuoEoLFP8WBFtLPKHkLT3wAs");
+        //*创建请求对象（不同操作，类不同）
+        GetVideoPlayAuthRequest request = new GetVideoPlayAuthRequest();
+        //*创建响应对象（不同操作，类不同）
+        GetVideoPlayAuthResponse response = new GetVideoPlayAuthResponse();
+        //*向请求中设置参数
+        //1.向数据库中拿到video_source_id 根据courseId拿
+        request.setVideoId(vid);
+        // *调用客户端对象方法发送请求，拿到响应
+        response = client.getAcsResponse(request);
+        //*从响应中拿到数据
+        String playAuth = response.getPlayAuth();
+        return R.ok().data("playAuth" , playAuth);
     }
 }

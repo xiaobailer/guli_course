@@ -19,7 +19,7 @@ import java.util.List;
 @RestController
 @RequestMapping("/eduservice/index")
 @Api(description = "首页显示")
-@CrossOrigin //跨域
+//@CrossOrigin //跨域
 public class IndexController {
     @Autowired
     private EduCourseService eduCourseService;

@@ -3,12 +3,14 @@ package com.atguigu.ucenterservice.controller;
 
 import com.atguigu.commonutils.R;
 import com.atguigu.commonutils.utils.JwtUtils;
+import com.atguigu.commonutils.vo.UcenterMemberForOrder;
 import com.atguigu.ucenterservice.entity.UcenterMember;
 import com.atguigu.ucenterservice.entity.vo.LoginVo;
 import com.atguigu.ucenterservice.entity.vo.RegisterVo;
 import com.atguigu.ucenterservice.service.UcenterMemberService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpRequest;
@@ -27,11 +29,12 @@ import javax.servlet.http.HttpServletRequest;
 @Api(description = "前台用户会员管理")
 @RestController
 @RequestMapping("/ucenterservice/ucenter-member")
-@CrossOrigin
+//@CrossOrigin
 public class UcenterMemberController {
 
     @Autowired
     private UcenterMemberService ucenterMemberService;
+
 
     @ApiOperation(value = "用户注册")
     @PostMapping("register")
@@ -57,6 +60,24 @@ public class UcenterMemberController {
         String memberIdByJwtToken = JwtUtils.getMemberIdByJwtToken(request);
         UcenterMember ucenterMember = ucenterMemberService.getById(memberIdByJwtToken);
         return R.ok().data("ucenterMember", ucenterMember);
+    }
+
+    //跨模块调用查询用户信息
+    @ApiOperation(value = "【跨模块调用根据memeberId获取用户信息】")
+    @GetMapping("getUcenterForOrder/{memberId}") //注意【远程调用】的时候传入的参数记得要加@PathiVariable注解
+    public UcenterMemberForOrder getUcenterForOrder(@PathVariable("memberId") String memberId) {
+        UcenterMember ucenterMember = ucenterMemberService.getById(memberId);
+        UcenterMemberForOrder ucenterMemberForOrder = new UcenterMemberForOrder();
+        BeanUtils.copyProperties(ucenterMember, ucenterMemberForOrder);
+        return ucenterMemberForOrder;
+    }
+
+    //统计注册人数【远程调用】
+    @ApiOperation(value = "统计注册人数【远程调用】")
+    @GetMapping("countRegister/{day}")
+    public R countRegister(@PathVariable("day") String day) {
+        Integer count = ucenterMemberService.countRegister(day);
+        return R.ok().data("count", count);
     }
 
 }

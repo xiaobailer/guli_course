@@ -28,6 +28,7 @@ import java.util.List;
 @Service
 public class EduChapterServiceImpl extends ServiceImpl<EduChapterMapper, EduChapter> implements EduChapterService {
 
+    //查询课程大纲小节信息
     @Autowired
     EduVideoService eduVideoService;
     @Override

@@ -19,6 +19,8 @@
         <module>service_sms</module>
         <module>service_ucenter</module>
         <module>service_wxlogin</module>
+        <module>service_order</module>
+        <module>service_statistics</module>
     </modules>
 
     <dependencies>
@@ -37,6 +39,11 @@
         <dependency>
             <groupId>org.springframework.cloud</groupId>
             <artifactId>spring-cloud-starter-alibaba-nacos-discovery</artifactId>
+        </dependency>
+        <!--服务配置-->
+        <dependency>
+            <groupId>org.springframework.cloud</groupId>
+            <artifactId>spring-cloud-starter-alibaba-nacos-config</artifactId>
         </dependency>
         <!--服务调用-->
         <dependency>

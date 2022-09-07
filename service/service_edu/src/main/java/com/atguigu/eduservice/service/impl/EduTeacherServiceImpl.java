@@ -23,6 +23,7 @@ import java.util.Map;
 @Service
 public class EduTeacherServiceImpl extends ServiceImpl<EduTeacherMapper, EduTeacher> implements EduTeacherService {
 
+   //前台分页查询讲师列表信息
     @Override
     public Map<String, Object> getTeacherApiPage(Page<EduTeacher> pageParam) {
         QueryWrapper<EduTeacher> queryWrapper = new QueryWrapper<>();

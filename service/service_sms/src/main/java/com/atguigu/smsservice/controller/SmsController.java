@@ -16,7 +16,7 @@ import java.util.concurrent.TimeUnit;
 @Api(description = "短信管理")
 @RestController
 @RequestMapping("edusms/sms")
-@CrossOrigin //跨域
+//@CrossOrigin //跨域
 public class SmsController {
     @Autowired
     private SmsService smsService;

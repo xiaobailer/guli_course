@@ -25,7 +25,7 @@ import java.util.List;
 @Api(description = "课程分类管理")
 @RestController
 @RequestMapping("/eduservice/edu-subject")
-@CrossOrigin // 解决跨域问题
+//@CrossOrigin // 解决跨域问题
 public class EduSubjectController {
     @Autowired
     private EduSubjectService eduSubjectService;

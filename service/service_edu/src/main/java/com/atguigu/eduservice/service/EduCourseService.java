@@ -3,7 +3,12 @@ package com.atguigu.eduservice.service;
 import com.atguigu.eduservice.entity.EduCourse;
 import com.atguigu.eduservice.entity.vo.CourseInfoForm;
 import com.atguigu.eduservice.entity.vo.CoursePublishVo;
+import com.atguigu.eduservice.entity.vo.CourseQueryVo;
+import com.atguigu.eduservice.entity.vo.CourseWebVo;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.IService;
+
+import java.util.Map;
 
 /**
  * <p>
@@ -22,4 +27,8 @@ public interface EduCourseService extends IService<EduCourse> {
     void updateCourseInfo(CourseInfoForm courseInfoForm);
 
     CoursePublishVo getCursePublicById(String id);
+
+    Map<String, Object> getCourseApiPageVo(Page<EduCourse> page, CourseQueryVo courseQueryVo);
+
+    CourseWebVo getCourseVo(String courseId);
 }

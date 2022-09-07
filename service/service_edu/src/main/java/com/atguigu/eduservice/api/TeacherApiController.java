@@ -18,7 +18,7 @@ import java.util.Map;
 @Api(description="前台讲师展示")
 @RestController
 @RequestMapping("/eduservice/teacherapi")
-@CrossOrigin
+//@CrossOrigin
 public class TeacherApiController {
 
     @Autowired

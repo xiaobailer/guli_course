@@ -5,13 +5,22 @@ import com.atguigu.eduservice.entity.EduCourse;
 import com.atguigu.eduservice.entity.EduCourseDescription;
 import com.atguigu.eduservice.entity.vo.CourseInfoForm;
 import com.atguigu.eduservice.entity.vo.CoursePublishVo;
+import com.atguigu.eduservice.entity.vo.CourseQueryVo;
+import com.atguigu.eduservice.entity.vo.CourseWebVo;
 import com.atguigu.eduservice.mapper.EduCourseMapper;
 import com.atguigu.eduservice.service.EduCourseDescriptionService;
 import com.atguigu.eduservice.service.EduCourseService;
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 /**
  * <p>
@@ -86,5 +95,63 @@ public class EduCourseServiceImpl extends ServiceImpl<EduCourseMapper, EduCourse
     public CoursePublishVo getCursePublicById(String id) {
         CoursePublishVo coursePublishVo = baseMapper.getCursePublicById(id);
         return coursePublishVo;
+    }
+
+
+    //前台分页查询课程信息
+    @Override
+    public Map<String, Object> getCourseApiPageVo(Page<EduCourse> pageParam, CourseQueryVo courseQueryVo) {
+        //1.取出查询信息
+        String subjectParentId = courseQueryVo.getSubjectParentId();
+        String subjectId = courseQueryVo.getSubjectId();
+        String buyCountSort = courseQueryVo.getBuyCountSort();
+        String gmtCreateSort = courseQueryVo.getGmtCreateSort();
+        String priceSort = courseQueryVo.getPriceSort();
+        //2.判断信息是否为空
+        QueryWrapper<EduCourse> queryWrapper = new QueryWrapper<>();
+        if (!StringUtils.isEmpty(subjectId)) {
+            queryWrapper.eq("subject_id", subjectId);
+        }
+        if (!StringUtils.isEmpty(subjectParentId)) {
+            queryWrapper.eq("subject_parent_id", subjectParentId);
+        }
+        if (!StringUtils.isEmpty(buyCountSort)) {
+            queryWrapper.orderByDesc("buy_count", buyCountSort);
+        }
+        if (!StringUtils.isEmpty(gmtCreateSort)) {
+            //倒排序
+            queryWrapper.orderByDesc("gmt_create", gmtCreateSort);
+        }
+        if (!StringUtils.isEmpty(priceSort)) {
+            queryWrapper.orderByDesc("price", priceSort);
+        }
+
+        //3.分页查询
+        baseMapper.selectPage(pageParam, queryWrapper);
+        //4.封装数据
+        List<EduCourse> records = pageParam.getRecords();
+        long current = pageParam.getCurrent();
+        long pages = pageParam.getPages();
+        long size = pageParam.getSize();
+        long total = pageParam.getTotal();
+        boolean hasNext = pageParam.hasNext();
+        boolean hasPrevious = pageParam.hasPrevious();
+
+        Map<String, Object> map = new HashMap<String, Object>();
+        map.put("items", records);
+        map.put("current", current);
+        map.put("pages", pages);
+        map.put("size", size);
+        map.put("total", total);
+        map.put("hasNext", hasNext);
+        map.put("hasPrevious", hasPrevious);
+        return map;
+
+    }
+
+    @Override
+    public CourseWebVo getCourseVo(String courseId) {
+        CourseWebVo courseWebVo = baseMapper.getCourseVo(courseId);
+        return courseWebVo;
     }
 }
